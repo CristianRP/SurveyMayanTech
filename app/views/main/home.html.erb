@@ -1,8 +1,35 @@
-<div id="surveyContainer"></div>
+<div class="container">
+  <div class="jumbotron">
+    <h1>Expocasa Junio 2017</h1>
+  </div>
+</div>
+
+<div class="panel panel-default container">
+  <div class="panel-body">
+    <div id="surveyContainer"></div>
+    <div id="surveyResult"></div>
+  </div>
+</div>
 
 <script type="text/javascript">
 function sendDataToServer(survey) {
   var resultAsString = JSON.stringify(survey.data);
-  alert(resultAsString); //send Ajax request to your web server.
+  document.querySelector('#surveyResult').innerHTML = "result: " + JSON.stringify(survey.data);
+  //alert(resultAsString); //send Ajax request to your web server.
+  //e.preventDefault();
+    var self = this;
+    $.ajax({
+      url: 'http://localhost:3001/api/v1/answers/',
+      method: 'POST',
+      data: { params: JSON.stringify(survey.data)},
+      success: function(data) {
+        /*self.props.handleAdd(data);
+        self.setState(self.getInitialState);*/
+        alert(data)
+      },
+      error: function(xhr, status, error) {
+        alert('Cannot add a new record: ', error);
+      }
+    })
 }
 </script>
